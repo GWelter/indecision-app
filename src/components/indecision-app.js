@@ -6,15 +6,33 @@ import Header from './header';
 import Action from './action';
 
 class IndecisionApp extends React.Component {
-	constructor(props) {
-		super(props);
-		this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-		this.handleDeleteSingleOption = this.handleDeleteSingleOption.bind(this);
-		this.handlePick = this.handlePick.bind(this);
-		this.handleAddOption = this.handleAddOption.bind(this);
-		this.state = {
-			options: props.options
+	state = {
+		options: []
+	};
+	handleDeleteOptions() {
+		this.setState(() => ({
+			options: []
+		}));
+	}
+	handleDeleteSingleOption = (optionToRemove) => {
+		this.setState((prevState) => ({
+			options: prevState.options.filter((option => option !== optionToRemove))
+		}));
+	}
+	handlePick = () => {
+		const position = Math.floor(Math.random() * this.state.options.length);
+		alert(this.state.options[position]);
+	}
+	handleAddOption = (option) => {
+		if(!option) {
+			return 'Enter valid value to add item';
+		}else if(this.state.options.indexOf(option) >1) {
+			return 'This option already exists';
 		}
+
+		this.setState((prevState) => ({
+			options: prevState.options.concat(option)
+		}));
 	}
 	componentDidMount() {
 		try {
@@ -33,34 +51,6 @@ class IndecisionApp extends React.Component {
 			const json = JSON.stringify(this.state.options);
 			localStorage.setItem('options', json);
 		}
-	}
-	componentWillUnmount() {
-
-	}
-	handleDeleteOptions() {
-		this.setState(() => ({
-			options: []
-		}));
-	}
-	handleDeleteSingleOption(optionToRemove) {
-		this.setState((prevState) => ({
-			options: prevState.options.filter((option => option !== optionToRemove))
-		}));
-	};
-	handlePick() {
-		const position = Math.floor(Math.random() * this.state.options.length);
-		alert(this.state.options[position]);
-	}
-	handleAddOption(option) {
-		if(!option) {
-			return 'Enter valid value to add item';
-		}else if(this.state.options.indexOf(option) >1) {
-			return 'This option already exists';
-		}
-
-		this.setState((prevState) => ({
-			options: prevState.options.concat(option)
-		}));
 	}
 	render() {
 		const subtitle = 'Put your live in the hands of a computer';
