@@ -15,15 +15,13 @@ export default class AddOption extends React.Component {
 			e.target.option.value = '';
 		}
 	}
-	render() {
-		return (
-			<div>
-				{this.state.error && <p>{this.state.error}</p>}
-				<form onSubmit={this.handleAddOption}>
-					<input type="text" name="option" />
-					<button>Add Option</button>
-				</form>
-			</div>
-		);
-	}
+	render = () => (
+		<div>
+			{this.state.error && <p>{this.state.error}</p>}
+			<form onSubmit={this.handleAddOption}>
+				<input type="text" name="option" />
+				<button>Add Option</button>
+			</form>
+		</div>
+	);
 };
